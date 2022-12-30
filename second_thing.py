@@ -1,0 +1,53 @@
+# -*- coding: utf-8 -*-
+"""
+Created on Mon Mar  1 11:31:46 2021
+
+@author: sapplen
+"""
+
+import openpyxl # 3.0.5 includes xlrd & xlwt & xlutils
+#import pillow
+#import xlsxwriter # charts
+#import pyxlsb  # no idea what xlsb file is
+#import pylightxl # no .xls support but light weight
+import xlrd
+import xlwt
+import xlutils # opensource
+#import pyxll # PyXLL is only by subscription $$
+import xlwings # CE free PRO $990/dev/year
+
+
+from openpyxl import Workbook 
+from openpyxl.utils import get_column_letter
+wb=Workbook()
+dest_filename='empty_book.xlsx'
+ws1=wb.active
+ws1.title="range names"
+for row in range(1,40):
+    ws1.append(range(600))
+    
+ws2=wb.create_sheet(title="Pi")
+ws2['F5']=3.14
+ws3= wb.create_sheet(title="Data")
+for row in range(10,20):
+    for col in range(27,54):
+       _ = ws3.cell(column=col, row=row, value ="{0}".format(get_column_letter(col)))
+print(ws3['AA10'].value)
+wb.save(filename=dest_filename)
+
+print("hellow world")
+print("ima gonna import a ome a stuff a now")
+import first_thing
+
+if __name__ == "__main__":
+    print("im the second running as:")
+    print(__name__)
+    
+my_range = wb.defined_names['my_range']
+# if this contains a range of cells then the destinations attribute is not None
+dests = my_range.destinations # returns a generator of (worksheet title, cell range) tuples
+
+cells = []
+for title, coord in dests:
+    ws = wb[title]
+    cells.append(ws[coord])
